@@ -13,6 +13,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -21,29 +22,28 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-{
-    
-    private WebDriver driver;
+public class AppTest {
 
-    @Before
-    public void setUp(){
-        System.out.println("Iniciando configuración...");
-        System.setProperty("webdriver.chrome.driver","drivers/chromedriver");
-        driver = new ChromeDriver();
-       // driver.get("https://www.amazon.com");
-        driver.manage().window().maximize();
-        System.out.println(driver.getCurrentUrl());
-        System.out.println(driver.getTitle());
-       // driver.navigate().to("https://www.google.com");
-    }
+  private WebDriver driver;
 
- 
+  @Before
+  public void setUp() {
+    System.out.println("Iniciando configuración...");
+    System.setProperty("webdriver.chrome.driver", "drivers/chromedriver");
+    ChromeOptions options = new ChromeOptions().setHeadless(true);
+    driver = new ChromeDriver(options);
+    // driver.get("https://www.amazon.com");
+    driver.manage().window().maximize();
+    System.out.println(driver.getCurrentUrl());
+    System.out.println(driver.getTitle());
+    // driver.navigate().to("https://www.google.com");
+  }
 
   @Test
   public void TestCrearUsuario() {
-    //para que cree un mail random siempre 
-    String mailNuevo="Grupo5"+String.valueOf(Math.random())+"@gmail.com";;
+    // para que cree un mail random siempre
+    String mailNuevo = "Grupo5" + String.valueOf(Math.random()) + "@gmail.com";
+    ;
     driver.manage().window().maximize();
     driver.get("http://automationpractice.com//index.php");
     driver.manage().window().setSize(new Dimension(1480, 885));
@@ -57,7 +57,7 @@ public class AppTest
     driver.findElement(By.id("customer_firstname")).click();
     driver.findElement(By.id("customer_firstname")).sendKeys("GrupoCinco");
     driver.findElement(By.id("customer_lastname")).click();
-  
+
     driver.findElement(By.id("customer_lastname")).sendKeys("Cinco");
     driver.findElement(By.id("passwd")).click();
     driver.findElement(By.id("passwd")).sendKeys("123456789");
@@ -66,31 +66,31 @@ public class AppTest
       WebDriverWait wait = new WebDriverWait(driver, 10);
       wait.until(ExpectedConditions.presenceOfElementLocated(By.id("days")));
     }
-    //se elige dia de nacimiento
+    // se elige dia de nacimiento
     driver.findElement(By.id("days")).click();
     {
       WebElement dropdown = driver.findElement(By.id("days"));
       dropdown.findElement(By.xpath("//option[2]")).click();
     }
-    //se elige mes de nacimiento
+    // se elige mes de nacimiento
     driver.findElement(By.id("months")).click();
     {
-            Select se = new Select(driver.findElement(By.xpath("//*[@id='months']")));
-            // Select the option by index
-            se.selectByIndex(3);
+      Select se = new Select(driver.findElement(By.xpath("//*[@id='months']")));
+      // Select the option by index
+      se.selectByIndex(3);
     }
-     //se elige anio de nacimiento
-   {
-    WebDriverWait wait = new WebDriverWait(driver, 10);
-    wait.until(ExpectedConditions.presenceOfElementLocated(By.id("years")));
-  }
+    // se elige anio de nacimiento
+    {
+      WebDriverWait wait = new WebDriverWait(driver, 10);
+      wait.until(ExpectedConditions.presenceOfElementLocated(By.id("years")));
+    }
     driver.findElement(By.id("years")).click();
     {
       WebElement dropdown = driver.findElement(By.id("years"));
       dropdown.findElement(By.xpath("//option[2]")).click();
     }
-    //completa el resto de inforamcion
-    
+    // completa el resto de inforamcion
+
     driver.findElement(By.cssSelector("#years > option:nth-child(32)")).click();
     driver.findElement(By.cssSelector(".form-group > .row")).click();
     driver.findElement(By.id("company")).click();
@@ -117,22 +117,22 @@ public class AppTest
     driver.findElement(By.id("phone_mobile")).sendKeys("9857474411");
     driver.findElement(By.cssSelector("#submitAccount .icon-chevron-right")).click();
     driver.findElement(By.xpath("(//a[contains(text(),\'Dresses\')])[5]")).click();
-    //eleccion de producto
+    // eleccion de producto
     WebDriverWait wait = new WebDriverWait(driver, 20);
-    WebElement ele=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Printed Dress']")));
-     ((JavascriptExecutor)driver).executeScript("arguments[0].click();" , ele);
-     //cambiar la cantidad
-     driver.findElement(By.id("quantity_wanted")).click();
-     driver.findElement(By.id("quantity_wanted")).clear();
-     driver.findElement(By.id("quantity_wanted")).sendKeys("3");
-  //Agregar al carro
-  driver.findElement(By.xpath("//p[@id='add_to_cart']//span[.='Add to cart']")).click();
+    WebElement ele = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Printed Dress']")));
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", ele);
+    // cambiar la cantidad
+    driver.findElement(By.id("quantity_wanted")).click();
+    driver.findElement(By.id("quantity_wanted")).clear();
+    driver.findElement(By.id("quantity_wanted")).sendKeys("3");
+    // Agregar al carro
+    driver.findElement(By.xpath("//p[@id='add_to_cart']//span[.='Add to cart']")).click();
 
- 
-  ///Boton proceed to checkout
-  wait = new WebDriverWait(driver, 20);
-  WebElement ele2=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Proceed to checkout']")));
-  ((JavascriptExecutor)driver).executeScript("arguments[0].click();" , ele2);
+    /// Boton proceed to checkout
+    wait = new WebDriverWait(driver, 20);
+    WebElement ele2 = wait
+        .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Proceed to checkout']")));
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", ele2);
 
     driver.findElement(By.cssSelector(".standard-checkout > span")).click();
     driver.findElement(By.cssSelector(".button:nth-child(4) > span")).click();
@@ -161,22 +161,22 @@ public class AppTest
     driver.findElement(By.cssSelector("#SubmitLogin > span")).click();
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     driver.findElement(By.xpath("(//a[contains(text(),\'Dresses\')])[5]")).click();
-    //eleccion de producto
+    // eleccion de producto
     WebDriverWait wait = new WebDriverWait(driver, 20);
-    WebElement ele=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Printed Dress']")));
-     ((JavascriptExecutor)driver).executeScript("arguments[0].click();" , ele);
-     //cambiar la cantidad
-     driver.findElement(By.id("quantity_wanted")).click();
-     driver.findElement(By.id("quantity_wanted")).clear();
-     driver.findElement(By.id("quantity_wanted")).sendKeys("2");
-  //Agregar al carro
-  driver.findElement(By.xpath("//p[@id='add_to_cart']//span[.='Add to cart']")).click();
+    WebElement ele = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Printed Dress']")));
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", ele);
+    // cambiar la cantidad
+    driver.findElement(By.id("quantity_wanted")).click();
+    driver.findElement(By.id("quantity_wanted")).clear();
+    driver.findElement(By.id("quantity_wanted")).sendKeys("2");
+    // Agregar al carro
+    driver.findElement(By.xpath("//p[@id='add_to_cart']//span[.='Add to cart']")).click();
 
- 
-  ///Boton proceed to checkout
-  wait = new WebDriverWait(driver, 20);
-  WebElement ele2=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Proceed to checkout']")));
-  ((JavascriptExecutor)driver).executeScript("arguments[0].click();" , ele2);
+    /// Boton proceed to checkout
+    wait = new WebDriverWait(driver, 20);
+    WebElement ele2 = wait
+        .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@title='Proceed to checkout']")));
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", ele2);
 
     driver.findElement(By.cssSelector(".standard-checkout > span")).click();
     driver.findElement(By.cssSelector(".button:nth-child(4) > span")).click();
@@ -188,5 +188,5 @@ public class AppTest
     driver.close();
     driver.quit();
   }
-  
+
 }
